@@ -70,7 +70,11 @@ TargetBoost executes in a two-step workflow: **(1)** duplex alignment and 65-fea
 Run `feature_extraction.py` to compute sequence, structural, positional, and thermodynamic features for your query tRF–transcript pairs:
 
 ```bash
-python3.9 scripts/feature_extraction.py
+python feature_extraction.py \
+    --trf trfs.fasta \
+    --transcripts transcripts.fasta \
+    --pairs pairs.tsv \
+    --output feature.tsv
 ```
 
 **Required Inputs:**
