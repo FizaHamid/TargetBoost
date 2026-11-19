@@ -1,0 +1,11 @@
+name: trf_target_finder
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.9
+  - vienna-rna>=2.4.0  # Provides RNAduplex and RNAhybrid
+  - pip
+  - pip:
+    - -r requirements.txt
