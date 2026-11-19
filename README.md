@@ -219,10 +219,10 @@ TargetBoost/
 
 If you use **TargetBoost** in your research, please cite our repository/manuscript:
 
-> *Author(s). TargetBoost: A Machine Learning Framework for Plant tRNA-Derived Fragment (tRF) Target Prediction. (2026). GitHub: https://github.com/YOUR-USERNAME/TargetBoost*
+> PtRFXplorer: Differentially Expressed tRFs in Plants with Validated Degradome Targets. GitHub: https://github.com/hamidfiza25-commits/TargetBoost*
 
 ---
 
 ## 6. Contact
 
-For questions, bug reports, or feature requests, please open an issue on the [TargetBoost GitHub Issues](https://github.com/YOUR-USERNAME/TargetBoost/issues) page.
+For questions, bug reports, or feature requests, please open an issue on the [TargetBoost GitHub Issues](https://github.com/hamidfiza25-commits/TargetBoost/issues) page.
