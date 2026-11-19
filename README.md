@@ -239,7 +239,6 @@ TargetBoost/
 │       ├── pr_curves_data.csv                                # Precision-Recall curve evaluation data
 │       └── roc_curves_data.csv                               # ROC curve evaluation data
 ├── scripts/
-│   ├── environment.yml                                       # Conda environment specification
 │   ├── model_selector.py                                     # Multi-model benchmarking and selection
 │   ├── negative_feature.py                                   # Feature extraction for negative dataset
 │   ├── positive_feature.py                                   # Feature extraction for positive dataset
