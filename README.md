@@ -45,20 +45,24 @@ TargetBoost supports **Linux** and **macOS** environments. Before running the pi
 
 ### 1.2 Setup
 
-Clone the repository and install the required Python dependencies:
+Clone the repository and create the Conda environment (includes Python `3.9`, `RNAduplex` via `viennarna`, and all required Python dependencies):
 
 ```bash
-git clone https://github.com/hamidfiza25-commits/TargetBoost.git
+git clone [https://github.com/hamidfiza25-commits/TargetBoost.git](https://github.com/hamidfiza25-commits/TargetBoost.git)
 cd TargetBoost
-pip install -r requirements.txt
+conda env create -f scripts/environment.yml
+conda activate targetboost
 ```
-
-Verify that `RNAduplex` is properly installed and accessible:
-
+Alternatively, create the environment directly without an environment file:
+```bash
+conda create -n targetboost python=3.9 viennarna xgboost pandas numpy scikit-learn biopython -c conda-forge -c bioconda -y
+conda activate targetboost
+```
+Verify that RNAduplex and the Python dependencies are installed properly:
 ```bash
 RNAduplex --version
+python -c "import xgboost, pandas, numpy, sklearn, Bio; print('Dependencies ready')"
 ```
-
 ---
 
 ## 2. Usage
