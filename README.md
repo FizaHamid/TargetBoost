@@ -50,12 +50,7 @@ Clone the repository and create the Conda environment (includes Python `3.9`, `R
 ```bash
 git clone https://github.com/hamidfiza25-commits/TargetBoost.git
 cd TargetBoost
-conda env create -f scripts/environment.yml
-conda activate targetboost
-```
-Alternatively, create the environment directly without an environment file:
-```bash
-conda create -n targetboost python=3.9 viennarna xgboost pandas numpy scikit-learn biopython -c conda-forge -c bioconda -y
+conda create -n targetboost --override-channels -c conda-forge -c bioconda python=3.9 viennarna xgboost pandas numpy scikit-learn biopython -y
 conda activate targetboost
 ```
 Verify that RNAduplex and the Python dependencies are installed properly:
