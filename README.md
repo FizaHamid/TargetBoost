@@ -185,7 +185,7 @@ For every candidate tRF–mRNA pair, TargetBoost extracts **65 quantitative and 
 | **C. Positional Features** | Distance to $5'$ end, Distance to $3'$ end | Distance from the target site to the transcript start and end, capturing positional targeting biases. |
 | **D. Seed Region** | Position 1 match, Position 8 match, Position 1 Adenine (`A`) indicator, flanking base identities ($-2, -1, +1, +2$) | Binary match indicators (`1` = matched, `0` = mismatched), `1`/`0` indicator for Adenine opposite position 1, and one-hot encoded flanking nucleotide identities. |
 | **E. Duplex Architecture** | Seed length, binding region length, longest consecutive pairing, position of longest pairing (relative to tRF $5'$ end), paired positions, gaps (indels), unpaired positions (mismatches/bulges) | Captures alignment geometry, uninterrupted pairing stretches, and structural bulge/gap penalties. |
-| **F. Thermodynamics** | Minimum Free Energy ($MFE$ in $\text{kcal/mol}$). |
+| **F. Thermodynamics** | Minimum Free Energy ($MFE$ in $\text{kcal/mol}$) | Quantifies overall thermodynamic hybridization stability (top individual predictor). |
 
 **Feature Processing:**
 * **Numerical Features**: Standardized using **Z-score normalization** or **Min-Max scaling**.
