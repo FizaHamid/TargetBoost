@@ -20,7 +20,7 @@
    - 2.4 [Output File Format](#24-output-file-format)
 3. [Methodology](#3-methodology)
    - 3.1 [Dataset Construction](#31-dataset-construction)
-   - 3.2 [Feature Engineering (66 Attributes)](#32-feature-engineering-66-attributes)
+   - 3.2 [Feature Engineering (65 Attributes)](#32-feature-engineering-65-attributes)
    - 3.3 [Model Architecture & Evaluation](#33-model-architecture--evaluation)
    - 3.4 [Hyperparameter Optimization](#34-hyperparameter-optimization)
 4. [Directory Structure](#4-directory-structure)
@@ -63,7 +63,7 @@ RNAduplex --version
 
 ## 2. Usage
 
-TargetBoost executes in a two-step workflow: **(1)** duplex alignment and 66-feature extraction, followed by **(2)** probability scoring using the pre-trained XGBoost classifier.
+TargetBoost executes in a two-step workflow: **(1)** duplex alignment and 65-feature extraction, followed by **(2)** probability scoring using the pre-trained XGBoost classifier.
 
 ### 2.1 Step 1: Feature Extraction
 
@@ -79,7 +79,7 @@ python3.9 scripts/feature_extraction.py
 * `transcripts.fasta` — Reference target transcript / CDS sequences in FASTA format
 
 **Output:**
-* `feature.tsv` — A 66-column feature matrix ready for model inference.
+* `feature.tsv` — A 65-column feature matrix ready for model inference.
 
 ---
 
@@ -169,9 +169,9 @@ Prior to feature computation, potential binding regions across plant transcripts
 
 ---
 
-### 3.3 Feature Engineering & Processing (66 Attributes)
+### 3.3 Feature Engineering & Processing (65 Attributes)
 
-For every candidate tRF–mRNA pair, TargetBoost extracts **66 quantitative and categorical features** spanning six biological categories:
+For every candidate tRF–mRNA pair, TargetBoost extracts **65 quantitative and categorical features** spanning six biological categories:
 
 | Category | Features Extracted | Formula / Implementation Details |
 | :--- | :--- | :--- |
@@ -221,7 +221,7 @@ TargetBoost/
 │   ├── trfs.fasta                    # Sample tRF sequences
 │   └── transcripts.fasta             # Sample target CDS/transcript sequences
 ├── scripts/
-│   ├── feature_extraction.py         # Step 1: 66-feature extraction using RNAduplex
+│   ├── feature_extraction.py         # Step 1: 65-feature extraction using RNAduplex
 │   └── model.py                      # Step 2: Inference using trained XGBoost model
 ├── models/
 │   └── trained_xgboost_model.pkl     # Pre-trained TargetBoost classifier
