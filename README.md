@@ -48,7 +48,7 @@ TargetBoost supports **Linux** and **macOS** environments. Before running the pi
 Clone the repository and install the required Python dependencies:
 
 ```bash
-git clone [https://github.com/YOUR-USERNAME/TargetBoost.git](https://github.com/YOUR-USERNAME/TargetBoost.git)
+git clone https://github.com/hamidfiza25-commits/TargetBoost.git
 cd TargetBoost
 pip install -r requirements.txt
 ```
