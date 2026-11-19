@@ -222,19 +222,35 @@ All models were evaluated using **10-fold stratified cross-validation** across s
 ```text
 TargetBoost/
 ├── data/
-│   ├── pairs.tsv                     # Sample query-target pairs
-│   ├── trfs.fasta                    # Sample tRF sequences
-│   └── transcripts.fasta             # Sample target CDS/transcript sequences
-├── scripts/
-│   ├── feature_extraction.py         # Step 1: 65-feature extraction using RNAduplex
-│   └── model.py                      # Step 2: Inference using trained XGBoost model
-├── models/
-│   └── trained_xgboost_model.pkl     # Pre-trained TargetBoost classifier
+│   ├── test_data.tsv.gz                                      # Compressed test feature dataset
+│   └── training_data.tsv.gz                                  # Compressed training feature dataset
 ├── docs/
-│   ├── _config.yml                   # GitHub Pages configuration
-│   └── index.md                      # GitHub Pages documentation
-├── requirements.txt                  # Python package dependencies
-└── README.md                         # Project documentation
+│   ├── _config.yml                                           # GitHub Pages Jekyll configuration
+│   ├── index.md                                              # GitHub Pages homepage documentation
+│   └── installation.md                                       # Setup and installation instructions
+├── example_data/
+│   ├── pairs.tsv                                             # Sample query-target transcript pairs
+│   ├── transcripts.fasta                                     # Sample reference target transcript sequences
+│   └── trfs.fasta                                            # Sample query tRF sequences
+├── model/
+│   ├── best_xgboost_trf_target_model.pkl                     # Pre-trained TargetBoost XGBoost model
+│   └── model_result/
+│       ├── best_model_features.txt                           # Selected feature list for the best model
+│       ├── optuna_tuning_history_xgboost_match_7mer_m8.txt   # Optuna hyperparameter optimization logs
+│       ├── pr_curves_data.csv                                # Precision-Recall curve evaluation data
+│       └── roc_curves_data.csv                               # ROC curve evaluation data
+├── scripts/
+│   ├── environment.yml                                       # Conda environment specification
+│   ├── model_selector.py                                     # Multi-model benchmarking and selection
+│   ├── negative_feature.py                                   # Feature extraction for negative dataset
+│   ├── positive_feature.py                                   # Feature extraction for positive dataset
+│   ├── RNAduplex_negative.py                                 # Negative dataset generation via RNAduplex
+│   └── tuning.py                                             # Optuna hyperparameter tuning script
+├── feature_extraction.py                                     # Step 1: Extract 66 features for user query pairs
+├── model.py                                                  # Step 2: Predict targets using trained XGBoost model
+├── LICENSE                                                   # Open-source license
+├── README.md                                                 # Primary repository documentation
+└── requirements.txt                                          # Python package dependencies
 ```
 
 ---
