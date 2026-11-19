@@ -472,19 +472,36 @@ def run_pipeline(trf_fasta_path, transcript_fasta_path, pairs_tsv_path, output_p
     )
 
 
-if __name__ == "__main__":
-    TRF_FASTA = "trfs.fasta"
-    TRANSCRIPT_FASTA = "transcripts.fasta"
-    PAIRS_TSV = "pairs.tsv"
-    OUTPUT_FILE = "extracted_features_rnaduplex.tsv"
 
-    if (
-        os.path.exists(TRF_FASTA)
-        and os.path.exists(TRANSCRIPT_FASTA)
-        and os.path.exists(PAIRS_TSV)
-    ):
-        run_pipeline(TRF_FASTA, TRANSCRIPT_FASTA, PAIRS_TSV, OUTPUT_FILE)
-    else:
-        print(
-            "Missing input files! Make sure 'trfs.fasta', 'transcripts.fasta', and 'pairs.tsv' exist."
-        )
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="Extract tRF-target interaction features using RNAduplex."
+    )
+
+    parser.add_argument(
+        "--trf", required=True,
+        help="Input tRF FASTA file"
+    )
+    parser.add_argument(
+        "--transcripts", required=True,
+        help="Input transcript FASTA file"
+    )
+    parser.add_argument(
+        "--pairs", required=True,
+        help="Input pairs TSV file"
+    )
+    parser.add_argument(
+        "--output", default="extracted_features_rnaduplex.tsv",
+        help="Output feature matrix TSV file"
+    )
+
+    args = parser.parse_args()
+
+    run_pipeline(
+        args.trf,
+        args.transcripts,
+        args.pairs,
+        args.output
+    )
