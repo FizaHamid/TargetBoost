@@ -1,11 +1,14 @@
-name: trf_target_finder
+name: targetboost
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
   - python=3.9
-  - vienna-rna>=2.4.0  # Provides RNAduplex and RNAhybrid
+  - viennarna
+  - xgboost
+  - pandas
+  - numpy
+  - scikit-learn
+  - biopython
   - pip
-  - pip:
-    - -r requirements.txt
