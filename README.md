@@ -74,12 +74,12 @@ python3.9 scripts/feature_extraction.py
 ```
 
 **Required Inputs:**
-* `pairs.tsv` — Query tRF and target transcript pair list
-* `trfs.fasta` — Query tRF sequences in FASTA format
-* `transcripts.fasta` — Reference target transcript / CDS sequences in FASTA format
+* `pairs.tsv`: Query tRF and target transcript pair list
+* `trfs.fasta`: Query tRF sequences in FASTA format
+* `transcripts.fasta`: Reference target transcript / CDS sequences in FASTA format
 
 **Output:**
-* `feature.tsv` — A 65-column feature matrix ready for model inference.
+* `feature.tsv`: A 65-column feature matrix ready for model inference.
 
 ---
 
@@ -92,11 +92,11 @@ python3.9 scripts/model.py
 ```
 
 **Required Inputs:**
-* `models/trained_xgboost_model.pkl` — Pre-trained TargetBoost XGBoost classifier
-* `feature.tsv` — Feature table generated in Step 1
+* `models/trained_xgboost_model.pkl`: Pre-trained TargetBoost XGBoost classifier
+* `feature.tsv`: Feature table generated in Step 1
 
 **Output:**
-* `predictions.tsv` — Final target interaction predictions with probability scores.
+* `predictions.tsv`: Final target interaction predictions with probability scores.
 
 ---
 
