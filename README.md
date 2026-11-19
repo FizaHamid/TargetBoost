@@ -4,7 +4,7 @@
 <!-- Uncomment the line below once you add your flowchart image in img/flowchart.png -->
 <!-- ![flowchart](img/flowchart.png) -->
 
-**TargetBoost** is a machine learning framework designed to predict biologically functional interactions between **plant tRNA-derived fragments (tRFs)** and **messenger RNA (mRNA) targets**. Unlike purely thermodynamic scanning tools, TargetBoost integrates **sequence composition**, **local target-site accessibility**, **seed region dynamics**, **duplex architecture**, and **minimum free energy ($MFE$)** calculated via [*RNAduplex*](https://www.tbi.univie.ac.at/RNA/RNAduplex.1.html) (ViennaRNA) into a gradient-boosted decision tree model (**XGBoost**) to distinguish functional cleavage/AGO-associated interactions from non-functional binding sites.
+**TargetBoost** is a machine learning framework designed to predict biologically functional interactions between **plant tRNA-derived fragments (tRFs)** and **messenger RNA (mRNA) targets**. Unlike purely thermodynamic scanning tools, TargetBoost integrates **sequence composition**, **local target-site accessibility**, **seed region dynamics**, **duplex architecture**, and **minimum free energy ($MFE$)** into a gradient-boosted decision tree model (**XGBoost**) to distinguish functional cleavage/AGO-associated interactions from non-functional binding sites.
 
 ---
 
