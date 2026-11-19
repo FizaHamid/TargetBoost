@@ -1,200 +1,231 @@
-import os
+#!/usr/bin/env python3
+"""Predict tRF-target interactions with a trained XGBoost model.
+
+The input is a tab-separated feature table (as produced by
+``feature_extraction.py``). The script rebuilds the training feature matrix,
+aligns it to the columns the model was trained on, and writes a tab-separated
+file with predicted probabilities and binary calls. If a ``Target_Label``
+column is present, accuracy and MCC are also reported.
+
+Example
+-------
+    python model_cli.py --input features.tsv --output predictions.tsv
+
+Security note: models are loaded with ``pickle``. Only load model files from
+sources you trust.
+"""
+
+from __future__ import annotations
+
+import argparse
+import logging
+import pickle
 import sys
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
-import pickle
-import xgboost as xgb  # Ensures XGBoost classes unpickle correctly
+import xgboost as xgb  # noqa: F401  (required so XGBoost classes unpickle)
+from sklearn.metrics import accuracy_score, matthews_corrcoef
+
+logger = logging.getLogger("trf_target_predictor")
+
+DEFAULT_MODEL_PATH = Path("model/best_xgboost_trf_target_model.pkl")
+DEFAULT_OUTPUT_PATH = Path("predictions.tsv")
+DEFAULT_THRESHOLD = 0.6020  # Decision threshold selected during model tuning
+
+METADATA_COLUMNS = ["SiteID", "Query_tRF", "TranscriptID", "Minimum_Free_Energy"]
+
+NUMERIC_FEATURES = [
+    "Length_of_tRF",
+    "GC_Percent_tRF",
+    "GC_Percent_Seed",
+    "Weighted_Local_AU_Content",
+    "Distance_to_5_End",
+    "Distance_to_3_End",
+    "Minimum_Free_Energy",
+    "Target_Length_involved_in_base_Pairing",
+    "Length_Longest_Consecutive_Pairing",
+    "Num_Paired_Positions",
+    "Num_Unpaired_Positions",
+]
+
+CATEGORICAL_FEATURES = [
+    "Base_Identity_2nt_Upstream_Pos2",
+    "Base_Identity_2nt_Upstream_Pos1",
+    "Base_Identity_2nt_Downstream_Pos1",
+    "Base_Identity_2nt_Downstream_Pos2",
+    "Position_1_Match",
+    "Position_1",
+]
+
+SEED_MATCH_COLUMN = "Match_7mer_m8"
+LABEL_COLUMN = "Target_Label"
 
 
-def run_unlabeled_independent_inference(
-    model_path, independent_data_path, output_predictions_path
-):
-    # =========================================================================
-    # 1. INITIAL SYSTEM CHECK & MODEL LOADING
-    # =========================================================================
-    if not os.path.exists(model_path):
-        print(f"❌ Error: Champion model file not found at '{model_path}'")
-        sys.exit(1)
-    if not os.path.exists(independent_data_path):
-        print(
-            f"❌ Error: Independent dataset not found at '{independent_data_path}'"
-        )
-        sys.exit(1)
+def load_model(model_path: Path):
+    """Unpickle the trained model."""
+    if not model_path.is_file():
+        raise FileNotFoundError(f"Model file not found: {model_path}")
+    logger.info("Loading model from %s", model_path)
+    with model_path.open("rb") as handle:
+        return pickle.load(handle)
 
-    print("🔓 Unpickling optimized XGBoost champion model asset...")
-    with open(model_path, "rb") as f:
-        model = pickle.load(f)
 
-    # Extract feature names reliably from XGBoost model
+def get_expected_features(model) -> list[str]:
+    """Return the feature names the model was trained with."""
     if hasattr(model, "feature_names_in_"):
-        model_expected_features = list(model.feature_names_in_)
+        names = list(model.feature_names_in_)
     elif hasattr(model, "get_booster"):
-        model_expected_features = model.get_booster().feature_names
+        names = model.get_booster().feature_names
     else:
-        model_expected_features = getattr(model, "feature_names_", None)
+        names = getattr(model, "feature_names_", None)
 
-    if model_expected_features is None:
-        print(
-            "❌ Error: Could not extract expected feature names from the loaded XGBoost model."
-        )
-        sys.exit(1)
+    if not names:
+        raise ValueError("Could not extract feature names from the loaded model.")
+    return list(names)
 
-    print(
-        f"📋 Model architecture requires exactly {len(model_expected_features)} structured features."
-    )
 
-    # =========================================================================
-    # 2. LOAD INDEPENDENT DATA AND APPLY BIOLOGICAL FEATURE ENGINE
-    # =========================================================================
-    print(f"📖 Reading independent dataset: {independent_data_path}...")
-    df = pd.read_csv(independent_data_path, sep="\t")
+def read_features(path: Path) -> pd.DataFrame:
+    """Read the feature table and normalise column names."""
+    if not path.is_file():
+        raise FileNotFoundError(f"Input file not found: {path}")
+    logger.info("Reading %s", path)
+    df = pd.read_csv(path, sep="\t")
     df.columns = df.columns.str.strip()
+    return df
 
-    # Store structural metadata columns separately to paste onto results later
-    metadata_cols = [
-        "SiteID",
-        "Query_tRF",
-        "TranscriptID",
-        "Target_Structure",
-        "tRF_Structure",
+
+def build_feature_matrix(df: pd.DataFrame) -> pd.DataFrame:
+    """Rebuild the feature matrix using the same logic as training."""
+    categorical = [c for c in CATEGORICAL_FEATURES if c in df.columns]
+    numeric = [c for c in NUMERIC_FEATURES if c in df.columns]
+
+    # Dinucleotide / base-composition columns are numeric unless categorical.
+    extra_numeric = [
+        c
+        for c in df.columns
+        if ("Dini_" in c or "Base_" in c) and c not in categorical
     ]
-    present_metadata = [col for col in metadata_cols if col in df.columns]
+    numeric = list(dict.fromkeys(numeric + extra_numeric))  # de-duplicate, keep order
 
-    if present_metadata:
-        results_df = df[present_metadata].copy()
+    parts = [df[numeric]]
+    if categorical:
+        # Keep all dummy levels (no drop_first): which level gets dropped
+        # would otherwise depend on this dataset. Alignment to the model's
+        # columns later discards any levels the model does not use.
+        parts.append(pd.get_dummies(df[categorical]))
+
+    if SEED_MATCH_COLUMN in df.columns:
+        parts.append(df[[SEED_MATCH_COLUMN]])
     else:
-        results_df = pd.DataFrame(index=df.index)
-
-    # Replicate exact training feature selection logic
-    target_numeric_features = [
-        "Length_of_tRF",
-        "GC_Percent_tRF",
-        "GC_Percent_Seed",
-        "Weighted_Local_AU_Content",
-        "Distance_to_5_End",
-        "Distance_to_3_End",
-        "Minimum_Free_Energy",
-        "Target_Length_involved_in_base_Pairing",
-        "Length_Longest_Consecutive_Pairing",
-        "Num_Paired_Positions",
-        "Num_Unpaired_Positions",
-    ]
-    numeric_features = [
-        col for col in target_numeric_features if col in df.columns
-    ]
-
-    target_categorical = [
-        "Base_Identity_2nt_Upstream_Pos2",
-        "Base_Identity_2nt_Upstream_Pos1",
-        "Base_Identity_2nt_Downstream_Pos1",
-        "Base_Identity_2nt_Downstream_Pos2",
-        "Position_1_Match",
-        "Position_1",
-    ]
-    categorical_features = [
-        col for col in target_categorical if col in df.columns
-    ]
-
-    all_dini_base_cols = [
-        col for col in df.columns if "Dini_" in col or "Base_" in col
-    ]
-    dini_base_numeric_features = [
-        col for col in all_dini_base_cols if col not in categorical_features
-    ]
-    numeric_features.extend(dini_base_numeric_features)
-
-    # Separate, process, and combine
-    X_numeric_base = df[numeric_features]
-    if categorical_features:
-        X_categorical_base = pd.get_dummies(
-            df[categorical_features], drop_first=True
+        logger.warning(
+            "Column '%s' is missing; defaulting to 0.0.", SEED_MATCH_COLUMN
         )
-        X_base = pd.concat([X_numeric_base, X_categorical_base], axis=1)
-    else:
-        X_base = X_numeric_base.copy()
+        parts.append(pd.DataFrame({SEED_MATCH_COLUMN: 0.0}, index=df.index))
 
-    # Bind structural target metric
-    if "Match_7mer_m8" in df.columns:
-        X_full = pd.concat([X_base, df[["Match_7mer_m8"]]], axis=1).astype(float)
-    else:
-        print(
-            "⚠️ Warning: Target seed column 'Match_7mer_m8' missing from independent data. Defaulting to 0.0"
-        )
-        X_base["Match_7mer_m8"] = 0.0
-        X_full = X_base.astype(float)
+    return pd.concat(parts, axis=1).astype(float)
 
-    # =========================================================================
-    # 3. COLUMN ALIGNMENT ENGINE (Prevents shape & layout crashes)
-    # =========================================================================
-    print("⚙️ Aligning independent data dimensions with model footprint...")
 
-    # Add any columns that the model expects but are missing in this dataset (fill with 0)
-    missing_cols = set(model_expected_features) - set(X_full.columns)
-    for col in missing_cols:
-        X_full[col] = 0.0
+def align_to_model(X: pd.DataFrame, expected: list[str]) -> pd.DataFrame:
+    """Add missing columns (as 0) and reorder to the model's training layout."""
+    missing = [c for c in expected if c not in X.columns]
+    if missing:
+        logger.info("Filling %d model feature(s) absent from input with 0.", len(missing))
+        X = X.assign(**{c: 0.0 for c in missing})
+    return X[expected]
 
-    # Reorder columns to perfectly match the training matrix layout
-    X_aligned = X_full[model_expected_features]
 
-    # =========================================================================
-    # 4. RUN INFERENCE USING OPTIMAL CUSTOM THRESHOLD
-    # =========================================================================
-    print("🔮 Projecting model vectors and running probability scoring matrix...")
-    probabilities = model.predict_proba(X_aligned)[:, 1]
+def predict(model, X: pd.DataFrame, threshold: float) -> tuple[np.ndarray, np.ndarray]:
+    """Return (probabilities, binary calls)."""
+    probabilities = model.predict_proba(X)[:, 1]
+    return probabilities, (probabilities >= threshold).astype(int)
 
-    # Threshold as specified in your script
-    OPTIMAL_THRESHOLD = 0.6020
-    binary_predictions = (probabilities >= OPTIMAL_THRESHOLD).astype(int)
 
-    # =========================================================================
-    # 5. COMPILE AND EXPORT ANNOTATED RESULTS
-    # =========================================================================
-    results_df["Predicted_Probability"] = probabilities
-    results_df["Match_Prediction"] = binary_predictions
+def report_summary(
+    df: pd.DataFrame, calls: np.ndarray, threshold: float
+) -> None:
+    """Log accuracy/MCC if labels exist, otherwise class counts."""
+    if LABEL_COLUMN in df.columns:
+        logger.info("Ground-truth labels found; computing metrics.")
+        logger.info("Accuracy : %.4f", accuracy_score(df[LABEL_COLUMN], calls))
+        logger.info("MCC      : %.4f", matthews_corrcoef(df[LABEL_COLUMN], calls))
+        return
 
-    # Check for ground truth label if present; otherwise, output summary statistics
-    if "Target_Label" in df.columns:
-        results_df["True_Label"] = df["Target_Label"]
-        print("ℹ️ Ground truth 'Target_Label' found. Computing test set metrics...")
-        from sklearn.metrics import (
-            accuracy_score,
-            classification_report,
-            matthews_corrcoef,
-        )
+    total = len(calls)
+    positives = int(calls.sum())
+    pct = (lambda n: 100 * n / total if total else 0.0)
+    logger.info("Samples processed : %d", total)
+    logger.info("Predicted targets : %d (%.2f%%)", positives, pct(positives))
+    logger.info("Non-targets       : %d (%.2f%%)", total - positives, pct(total - positives))
+    logger.info("Threshold used    : %.4f", threshold)
 
-        acc = accuracy_score(df["Target_Label"], binary_predictions)
-        mcc = matthews_corrcoef(df["Target_Label"], binary_predictions)
-        print(f"  • Accuracy (ACC) : {acc:.4f}")
-        print(f"  • Matthews (MCC) : {mcc:.4f}")
-    else:
-        total_samples = len(results_df)
-        positives = int(binary_predictions.sum())
-        negatives = total_samples - positives
 
-        print("\n" + "=" * 55)
-        print("📊 INFERENCE SUMMARY (Unlabeled Dataset)")
-        print("=" * 55)
-        print(f"  • Total Samples Processed : {total_samples}")
-        print(
-            f"  • Predicted Targets (1)  : {positives} ({positives / total_samples * 100:.2f}%)"
-        )
-        print(
-            f"  • Non-Targets (0)        : {negatives} ({negatives / total_samples * 100:.2f}%)"
-        )
-        print("=" * 55 + "\n")
+def run_inference(
+    model_path: Path,
+    input_path: Path,
+    output_path: Path,
+    threshold: float = DEFAULT_THRESHOLD,
+) -> pd.DataFrame:
+    """Full pipeline: load, featurise, align, predict, export."""
+    model = load_model(model_path)
+    expected = get_expected_features(model)
+    logger.info("Model expects %d features.", len(expected))
 
-    results_df.to_csv(output_predictions_path, sep="\t", index=False)
-    print(
-        f"🎉 Success! Annotated predictions exported to: '{output_predictions_path}'"
+    df = read_features(input_path)
+
+    metadata = [c for c in METADATA_COLUMNS if c in df.columns]
+    results = df[metadata].copy() if metadata else pd.DataFrame(index=df.index)
+
+    X = align_to_model(build_feature_matrix(df), expected)
+    probabilities, calls = predict(model, X, threshold)
+
+    results["Predicted_Probability"] = probabilities
+    results["Match_Prediction"] = calls
+    if LABEL_COLUMN in df.columns:
+        results["True_Label"] = df[LABEL_COLUMN]
+
+    report_summary(df, calls, threshold)
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    results.to_csv(output_path, sep="\t", index=False)
+    logger.info("Predictions written to %s", output_path)
+    return results
+
+
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Predict tRF-target interactions using a trained XGBoost model."
     )
+    parser.add_argument(
+        "-i", "--input", type=Path, required=True,
+        help="Feature TSV file generated by feature_extraction.py",
+    )
+    parser.add_argument(
+        "-o", "--output", type=Path, default=DEFAULT_OUTPUT_PATH,
+        help="Output predictions TSV (default: %(default)s)",
+    )
+    parser.add_argument(
+        "-m", "--model", type=Path, default=DEFAULT_MODEL_PATH,
+        help="Path to the pickled XGBoost model (default: %(default)s)",
+    )
+    parser.add_argument(
+        "-t", "--threshold", type=float, default=DEFAULT_THRESHOLD,
+        help="Probability cutoff for a positive call (default: %(default)s)",
+    )
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+    try:
+        run_inference(args.model, args.input, args.output, args.threshold)
+    except (FileNotFoundError, ValueError) as err:
+        logger.error("%s", err)
+        return 1
+    return 0
 
 
 if __name__ == "__main__":
-    # Configure your paths here
-    MODEL_PATH = "./model/best_xgboost_trf_target_model.pkl"
-    INDEPENDENT_DATA_PATH = "extracted_features_rnaduplex.tsv"  # Path to your unlabeled input file
-    OUTPUT_RESULTS_PATH = "independent_RNAduplex_predictions_output.tsv"
-
-    run_unlabeled_independent_inference(
-        MODEL_PATH, INDEPENDENT_DATA_PATH, OUTPUT_RESULTS_PATH
-    )
+    sys.exit(main())
