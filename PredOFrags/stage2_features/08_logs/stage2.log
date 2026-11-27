@@ -1,0 +1,88 @@
+[2026-09-30 18:04:15] ===========================================================================
+[2026-09-30 18:04:15] STARTING STAGE 2
+[2026-09-30 18:04:15] ===========================================================================
+[2026-09-30 18:04:15] Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+[2026-09-30 18:04:15] Base directory: /lustre/home/sklab202/sourav_ml/sheetal_ml
+[2026-09-30 18:04:15] Input directory: /lustre/home/sklab202/sourav_ml/sheetal_ml/cleaned_dataset
+[2026-09-30 18:04:15] Reading cleaned positive and negative datasets
+[2026-09-30 18:04:15] Building positive tRF subtype map
+[2026-09-30 18:04:15] Subtype 3tRH: 1,807 records
+[2026-09-30 18:04:15] Subtype 5tRH: 4,470 records
+[2026-09-30 18:04:15] Subtype leader: 469 records
+[2026-09-30 18:04:15] Subtype other: 84,892 records
+[2026-09-30 18:04:15] Subtype tRF-1: 2,802 records
+[2026-09-30 18:04:15] Subtype tRF-3: 16,496 records
+[2026-09-30 18:04:15] Subtype tRF-5: 17,538 records
+[2026-09-30 18:04:15] Positive records read: 128,474
+[2026-09-30 18:04:15] Negative records read: 104,079
+[2026-09-30 18:04:15] Running dataset integrity checks
+[2026-09-30 18:04:15] WARNING: 3,969 duplicate records remain
+[2026-09-30 18:04:16] Cross-class identical sequences: 0
+[2026-09-30 18:04:16] Unassigned positive subtype sequences: 0
+[2026-09-30 18:04:16] Master dataset saved: /lustre/home/sklab202/sourav_ml/sheetal_ml/stage2_features/01_dataset/master_dataset.tsv
+[2026-09-30 18:04:16] Extracting sequence features
+[2026-09-30 18:04:20] Feature extraction: 25,000/232,553
+[2026-09-30 18:04:24] Feature extraction: 50,000/232,553
+[2026-09-30 18:04:28] Feature extraction: 75,000/232,553
+[2026-09-30 18:04:32] Feature extraction: 100,000/232,553
+[2026-09-30 18:04:36] Feature extraction: 125,000/232,553
+[2026-09-30 18:04:40] Feature extraction: 150,000/232,553
+[2026-09-30 18:04:44] Feature extraction: 175,000/232,553
+[2026-09-30 18:04:48] Feature extraction: 200,000/232,553
+[2026-09-30 18:04:52] Feature extraction: 225,000/232,553
+[2026-09-30 18:05:51] Feature matrix saved: 232,553 rows × 448 columns
+[2026-09-30 18:06:11] ===========================================================================
+[2026-09-30 18:06:11] STARTING STAGE 2
+[2026-09-30 18:06:11] ===========================================================================
+[2026-09-30 18:06:11] Python version: 3.11.16 (main, Sep  2 2026, 23:39:52) [GCC 15.3.0]
+[2026-09-30 18:06:11] Base directory: /lustre/home/sklab202/sourav_ml/sheetal_ml
+[2026-09-30 18:06:11] Input directory: /lustre/home/sklab202/sourav_ml/sheetal_ml/cleaned_dataset
+[2026-09-30 18:06:11] Reading cleaned positive and negative datasets
+[2026-09-30 18:06:11] Building positive tRF subtype map
+[2026-09-30 18:06:11] Subtype 3tRH: 1,807 records
+[2026-09-30 18:06:11] Subtype 5tRH: 4,470 records
+[2026-09-30 18:06:11] Subtype leader: 469 records
+[2026-09-30 18:06:11] Subtype other: 84,892 records
+[2026-09-30 18:06:11] Subtype tRF-1: 2,802 records
+[2026-09-30 18:06:11] Subtype tRF-3: 16,496 records
+[2026-09-30 18:06:11] Subtype tRF-5: 17,538 records
+[2026-09-30 18:06:11] Positive records read: 128,474
+[2026-09-30 18:06:11] Negative records read: 104,079
+[2026-09-30 18:06:11] Running dataset integrity checks
+[2026-09-30 18:06:11] WARNING: 3,969 duplicate records remain
+[2026-09-30 18:06:11] Cross-class identical sequences: 0
+[2026-09-30 18:06:11] Unassigned positive subtype sequences: 0
+[2026-09-30 18:06:12] Master dataset saved: /lustre/home/sklab202/sourav_ml/sheetal_ml/stage2_features/01_dataset/master_dataset.tsv
+[2026-09-30 18:06:12] Extracting sequence features
+[2026-09-30 18:06:16] Feature extraction: 25,000/232,553
+[2026-09-30 18:06:20] Feature extraction: 50,000/232,553
+[2026-09-30 18:06:24] Feature extraction: 75,000/232,553
+[2026-09-30 18:06:28] Feature extraction: 100,000/232,553
+[2026-09-30 18:06:32] Feature extraction: 125,000/232,553
+[2026-09-30 18:06:37] Feature extraction: 150,000/232,553
+[2026-09-30 18:06:41] Feature extraction: 175,000/232,553
+[2026-09-30 18:06:45] Feature extraction: 200,000/232,553
+[2026-09-30 18:06:49] Feature extraction: 225,000/232,553
+[2026-09-30 18:07:48] Feature matrix saved: 232,553 rows × 448 columns
+[2026-09-30 18:08:32] Numeric feature count: 425
+[2026-09-30 18:08:32] Calculating descriptive statistics
+[2026-09-30 18:08:41] Running binary tRF vs non-tRF statistics
+[2026-09-30 18:09:06] Running 7-class Kruskal-Wallis tests
+[2026-09-30 18:09:09] Running pairwise subtype tests
+[2026-09-30 18:09:40] Running k-mer enrichment analysis
+[2026-09-30 18:09:44] Calculating mutual information
+[2026-09-30 18:13:54] Calculating Pearson and Spearman correlations
+[2026-09-30 18:17:37] Running variance filtering
+[2026-09-30 18:17:37] Running correlation-based feature pruning
+[2026-09-30 18:19:52] Correlation pruning: 425 -> 420 features
+[2026-09-30 18:19:52] Creating combined feature ranking
+[2026-09-30 18:19:52] Running PCA
+[2026-09-30 18:19:56] PCA completed
+[2026-09-30 18:20:06] Running UMAP
+[2026-09-30 18:20:41] UMAP completed
+[2026-09-30 18:20:41] Creating visualization-ready tables
+[2026-09-30 18:20:47] Summary saved: /lustre/home/sklab202/sourav_ml/sheetal_ml/stage2_features/stage2_summary.txt
+[2026-09-30 18:20:47] ===========================================================================
+[2026-09-30 18:20:47] STAGE 2 COMPLETED
+[2026-09-30 18:20:47] Runtime: 0:14:36.164354
+[2026-09-30 18:20:47] ===========================================================================

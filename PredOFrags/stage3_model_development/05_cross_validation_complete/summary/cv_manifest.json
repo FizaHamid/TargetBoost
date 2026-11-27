@@ -1,0 +1,29 @@
+{
+  "seed": 42,
+  "folds": 5,
+  "device": "cpu",
+  "train_only": true,
+  "validation_used": false,
+  "test_used": false,
+  "synthetic_balancing": false,
+  "binary_models": [
+    "XGBoost",
+    "SVM_RBF",
+    "CNN"
+  ],
+  "subclass_models": [
+    "XGBoost",
+    "RandomForest",
+    "CNN"
+  ],
+  "candidate_features": 424,
+  "foldwise_variance_and_spearman_selection": true,
+  "spearman_threshold": 0.9,
+  "binary_oof_rows": 160853,
+  "subclass_oof_rows": 89931,
+  "cnn_epochs": 30,
+  "cnn_patience": 5,
+  "cnn_batch_size": 256,
+  "binary_cv_threshold": 0.5,
+  "production_threshold_source": "original Stage 3B validation optimization"
+}

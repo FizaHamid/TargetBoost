@@ -1,0 +1,6 @@
+feature_removed	feature_retained	absolute_spearman	reason
+k1_G	G_fraction	1.0	high_correlation
+U_fraction	k1_U	1.0	high_correlation
+sequence_complexity	unique_nucleotide_count	1.0	high_correlation
+C_fraction	k1_C	1.0	high_correlation
+A_fraction	k1_A	1.0	high_correlation

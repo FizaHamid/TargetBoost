@@ -1,0 +1,35 @@
+{
+    "stage": "3A_fixed_dataset_splitting",
+    "analysis_date": "2026-10-01 12:30:47.699234",
+    "base_directory": "/lustre/home/sklab202/sourav_ml/sheetal_ml",
+    "input_dataset": "/lustre/home/sklab202/sourav_ml/sheetal_ml/stage2_features/01_dataset/master_dataset.tsv",
+    "input_dataset_md5": "fd8df2e38e241ebaa5aefd073e8a1477",
+    "random_seed": 42,
+    "train_fraction": 0.7,
+    "validation_fraction": 0.15,
+    "test_fraction": 0.15,
+    "total_sequences": 229791,
+    "train_sequences": 160853,
+    "validation_sequences": 34469,
+    "test_sequences": 34469,
+    "sequence_id_column": "sequence_id",
+    "sequence_column": "sequence",
+    "binary_column_original": "label",
+    "subclass_column_original": "subclass",
+    "expected_binary_labels": [
+        "non-tRF",
+        "tRF"
+    ],
+    "expected_subclasses": [
+        "3tRH",
+        "5tRH",
+        "leader",
+        "other",
+        "tRF-1",
+        "tRF-3",
+        "tRF-5"
+    ],
+    "feature_selection_performed": false,
+    "model_training_performed": false,
+    "test_set_used_for_model_development": false
+}

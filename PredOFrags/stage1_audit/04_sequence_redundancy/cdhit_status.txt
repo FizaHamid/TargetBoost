@@ -1,0 +1,2 @@
+CD-HIT executable not found.
+Install/load CD-HIT and rerun Stage 1 for sequence identity clustering.

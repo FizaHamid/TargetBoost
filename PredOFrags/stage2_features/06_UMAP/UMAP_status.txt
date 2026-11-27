@@ -1,0 +1,6 @@
+Completed
+n=20000
+n_neighbors=30
+min_dist=0.2
+metric=euclidean
+random_seed=42
