@@ -1,0 +1,8 @@
+	pred_tRF-5	pred_tRF-3	pred_5tRH	pred_tRF-1	pred_3tRH	pred_leader	pred_other
+true_tRF-5	12048	8	67	22	0	0	228
+true_tRF-3	6	11275	0	0	43	0	288
+true_5tRH	6	0	3094	0	0	0	6
+true_tRF-1	6	9	0	1732	0	7	186
+true_3tRH	0	37	0	0	1209	0	24
+true_leader	0	0	1	41	0	235	67
+true_other	1606	244	582	104	109	1	56640

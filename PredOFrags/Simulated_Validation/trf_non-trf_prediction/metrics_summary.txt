@@ -1,0 +1,59 @@
+========================================================================
+SIMULATED SEQUENCE EVALUATION: HEADER-DERIVED LABELS
+========================================================================
+
+LABEL DEFINITIONS
+pos_ = true tRF (1)
+neg_ = true non-tRF (0)
+
+DATA COUNTS
+Total input records:           13,277,260
+Records evaluated:             13,277,260
+Unrecognized header records:   0
+True tRF records:              10,754,520
+True non-tRF records:           2,522,740
+Predicted tRF records:          10,168,722
+Predicted non-tRF records:      3,108,538
+
+LOCKED THRESHOLD: 0.495
+
+CONFUSION MATRIX COUNTS
+TN: 2,306,995
+FP: 215,745
+FN: 801,543
+TP: 9,952,977
+
+PERFORMANCE METRICS
+locked_threshold: 0.49500000
+total_input_records: 13277260
+records_evaluated: 13277260
+unrecognized_header_records: 0
+true_tRF_records: 10754520
+true_non_tRF_records: 2522740
+predicted_tRF_records: 10168722
+predicted_non_tRF_records: 3108538
+TN: 2306995
+FP: 215745
+FN: 801543
+TP: 9952977
+accuracy: 0.92338118
+balanced_accuracy: 0.91997454
+precision_tRF: 0.97878347
+recall_tRF_sensitivity: 0.92546920
+specificity_non_tRF: 0.91447989
+F1_tRF: 0.95138000
+MCC: 0.77816814
+ROC_AUC: 0.97425965
+average_precision_PR_AUC: 0.99405998
+log_loss: 0.27545059
+Brier_score: 0.06272221
+
+CLASSIFICATION REPORT
+              precision    recall  f1-score   support
+
+     non_tRF   0.742148  0.914480  0.819350   2522740
+         tRF   0.978783  0.925469  0.951380  10754520
+
+    accuracy                       0.923381  13277260
+   macro avg   0.860466  0.919975  0.885365  13277260
+weighted avg   0.933822  0.923381  0.926294  13277260

@@ -1,0 +1,3 @@
+source_file	records	unique_sequences	duplicate_records	duplicate_percent	empty_sequences	invalid_sequences	min_length	median_length	mean_length	std_length	max_length
+all_negative.fa	104079	101317	2762	2.653753398860481	0	12	1	23.0	28.878947722403176	15.235338112937956	75
+all_positive_merged_unique.fa	128474	128474	0	0.0	0	31448	14	27.0	28.138969752634775	9.674835624352605	71

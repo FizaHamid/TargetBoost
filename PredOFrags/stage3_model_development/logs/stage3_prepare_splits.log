@@ -1,0 +1,246 @@
+======================================================================
+STAGE 3A — FIXED DATASET SPLITTING
+======================================================================
+Start time      : 2026-10-01 12:19:36.719955
+Base directory  : /lustre/home/sklab202/sourav_ml/sheetal_ml
+Input dataset   : /lustre/home/sklab202/sourav_ml/sheetal_ml/stage2_features/01_dataset/master_dataset.tsv
+Output directory: /lustre/home/sklab202/sourav_ml/sheetal_ml/stage3_model_development
+Random seed     : 42
+Split           : 70% train / 15% validation / 15% test
+
+======================================================================
+LOADING MASTER DATASET
+======================================================================
+Reading: /lustre/home/sklab202/sourav_ml/sheetal_ml/stage2_features/01_dataset/master_dataset.tsv
+Rows loaded    : 232,553
+Columns loaded : 6
+
+Identified columns:
+Sequence ID : sequence_id
+Sequence    : sequence
+Binary      : label
+Subclass    : subclass
+
+======================================================================
+INPUT DATASET INTEGRITY
+======================================================================
+Missing sequence_id         : 0
+Missing sequence            : 0
+Missing label               : 0
+Missing subclass            : 0
+Duplicate sequence IDs: 0
+Duplicate exact sequences: 2,762
+======================================================================
+STAGE 3A — FIXED DATASET SPLITTING
+======================================================================
+Start time      : 2026-10-01 12:30:43.819635
+Base directory  : /lustre/home/sklab202/sourav_ml/sheetal_ml
+Input dataset   : /lustre/home/sklab202/sourav_ml/sheetal_ml/stage2_features/01_dataset/master_dataset.tsv
+Output directory: /lustre/home/sklab202/sourav_ml/sheetal_ml/stage3_model_development
+Random seed     : 42
+Split           : 70% train / 15% validation / 15% test
+
+======================================================================
+LOADING MASTER DATASET
+======================================================================
+Reading: /lustre/home/sklab202/sourav_ml/sheetal_ml/stage2_features/01_dataset/master_dataset.tsv
+Rows loaded    : 229,791
+Columns loaded : 6
+
+Identified columns:
+Sequence ID : sequence_id
+Sequence    : sequence
+Binary      : label
+Subclass    : subclass
+
+======================================================================
+INPUT DATASET INTEGRITY
+======================================================================
+Missing sequence_id         : 0
+Missing sequence            : 0
+Missing label               : 0
+Missing subclass            : 0
+Duplicate sequence IDs: 0
+Duplicate exact sequences: 0
+
+======================================================================
+BINARY LABEL VALIDATION
+======================================================================
+Observed labels: ['non-tRF', 'tRF']
+
+======================================================================
+tRF SUBCLASS VALIDATION
+======================================================================
+Observed subclasses: ['3tRH', '5tRH', 'leader', 'other', 'tRF-1', 'tRF-3', 'tRF-5']
+
+Non-tRF subclass labels: ['non-tRF']
+
+======================================================================
+FULL DATASET — BINARY DISTRIBUTION
+======================================================================
+tRF                     128,474 ( 55.909%)
+non-tRF                 101,317 ( 44.091%)
+TOTAL                   229,791
+
+======================================================================
+FULL tRF DATASET — SUBCLASS DISTRIBUTION
+======================================================================
+other                    84,892 ( 66.077%)
+tRF-5                    17,538 ( 13.651%)
+tRF-3                    16,496 ( 12.840%)
+5tRH                      4,470 (  3.479%)
+tRF-1                     2,802 (  2.181%)
+3tRH                      1,807 (  1.407%)
+leader                      469 (  0.365%)
+TOTAL                   128,474
+
+======================================================================
+CREATING FIXED SPLITS
+======================================================================
+
+Training sequences   : 160,853
+Validation sequences : 34,469
+Test sequences       : 34,469
+
+======================================================================
+TRAIN — BINARY DISTRIBUTION
+======================================================================
+tRF                      89,931 ( 55.909%)
+non-tRF                  70,922 ( 44.091%)
+TOTAL                   160,853
+
+======================================================================
+VALIDATION — BINARY DISTRIBUTION
+======================================================================
+tRF                      19,271 ( 55.908%)
+non-tRF                  15,198 ( 44.092%)
+TOTAL                    34,469
+
+======================================================================
+TEST — BINARY DISTRIBUTION
+======================================================================
+tRF                      19,272 ( 55.911%)
+non-tRF                  15,197 ( 44.089%)
+TOTAL                    34,469
+
+======================================================================
+TRAIN tRF — SUBCLASS DISTRIBUTION
+======================================================================
+other                    59,286 ( 65.924%)
+tRF-5                    12,373 ( 13.758%)
+tRF-3                    11,612 ( 12.912%)
+5tRH                      3,106 (  3.454%)
+tRF-1                     1,940 (  2.157%)
+3tRH                      1,270 (  1.412%)
+leader                      344 (  0.383%)
+TOTAL                    89,931
+
+======================================================================
+VALIDATION tRF — SUBCLASS DISTRIBUTION
+======================================================================
+other                    12,811 ( 66.478%)
+tRF-5                     2,564 ( 13.305%)
+tRF-3                     2,435 ( 12.636%)
+5tRH                        673 (  3.492%)
+tRF-1                       449 (  2.330%)
+3tRH                        273 (  1.417%)
+leader                       66 (  0.342%)
+TOTAL                    19,271
+
+======================================================================
+TEST tRF — SUBCLASS DISTRIBUTION
+======================================================================
+other                    12,795 ( 66.392%)
+tRF-5                     2,601 ( 13.496%)
+tRF-3                     2,449 ( 12.708%)
+5tRH                        691 (  3.586%)
+tRF-1                       413 (  2.143%)
+3tRH                        264 (  1.370%)
+leader                       59 (  0.306%)
+TOTAL                    19,272
+
+======================================================================
+SUBCLASS REPRESENTATION CHECK
+======================================================================
+TRAIN        missing subclasses: NONE
+VALIDATION   missing subclasses: NONE
+TEST         missing subclasses: NONE
+
+======================================================================
+CROSS-PARTITION SEQUENCE INTEGRITY
+======================================================================
+Train ∩ Validation : 0
+Train ∩ Test       : 0
+Validation ∩ Test  : 0
+PASS: No exact sequence overlap between partitions.
+
+======================================================================
+SEQUENCE ID OVERLAP CHECK
+======================================================================
+Train ∩ Validation: 0
+Train ∩ Test      : 0
+Validation ∩ Test : 0
+PASS: Sequence IDs are mutually exclusive.
+
+======================================================================
+SAVING SPLIT IDS
+======================================================================
+Saved train_ids.tsv
+Saved validation_ids.tsv
+Saved test_ids.tsv
+
+======================================================================
+SAVING BINARY DATASETS
+======================================================================
+Saved train_binary.tsv
+Saved validation_binary.tsv
+Saved test_binary.tsv
+
+======================================================================
+SAVING tRF SUBCLASS DATASETS
+======================================================================
+Saved train_subclass.tsv
+Saved validation_subclass.tsv
+Saved test_subclass.tsv
+
+======================================================================
+CREATING SPLIT SUMMARY
+======================================================================
+Saved split_summary.tsv
+Saved subclass_split_summary.tsv
+Saved split_indices.npz
+Saved split_configuration.json
+
+======================================================================
+FINAL INTEGRITY CHECK
+======================================================================
+PASS    No missing required values
+PASS    Unique sequence IDs
+PASS    Unique exact sequences
+PASS    Expected binary labels
+PASS    Expected subclasses
+PASS    All subclasses represented in train
+PASS    All subclasses represented in validation
+PASS    All subclasses represented in test
+PASS    No exact sequence overlap
+PASS    No sequence ID overlap
+PASS    All sequences assigned
+
+======================================================================
+STAGE 3A COMPLETED SUCCESSFULLY
+======================================================================
+End time: 2026-10-01 12:30:47.809262
+
+FIXED DATASET SPLIT
+-------------------
+Train      : 160,853 (70.00%)
+Validation : 34,469 (15.00%)
+Test       : 34,469 (15.00%)
+
+IMPORTANT
+---------
+The test set is now frozen and must not be used for feature selection, hyperparameter tuning, threshold optimization, calibration, or model selection.
+
+Next stage: training-only feature selection.
+
+Output directory: /lustre/home/sklab202/sourav_ml/sheetal_ml/stage3_model_development

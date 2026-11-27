@@ -1,0 +1,114 @@
+STAGE 2 — tRF / non-tRF FEATURE ENGINEERING AND STATISTICAL ANALYSIS
+===========================================================================
+
+Analysis date: 2026-09-30 18:20:47.072519
+Base directory: /lustre/home/sklab202/sourav_ml/sheetal_ml
+Input directory: /lustre/home/sklab202/sourav_ml/sheetal_ml/cleaned_dataset
+Output directory: /lustre/home/sklab202/sourav_ml/sheetal_ml/stage2_features
+
+DATASET
+--------------------------------------------------
+Total sequences: 232,553
+tRF sequences: 128,474
+non-tRF sequences: 104,079
+Numeric features: 425
+Correlation-pruned features: 420
+
+tRF SUBCLASSES
+--------------------------------------------------
+other: 84,892
+tRF-5: 17,538
+tRF-3: 16,496
+5tRH: 4,470
+tRF-1: 2,802
+3tRH: 1,807
+leader: 469
+
+BINARY SIGNIFICANT FEATURES
+--------------------------------------------------
+FDR < 0.05: 418
+FDR < 0.01: 415
+
+MULTICLASS SIGNIFICANT FEATURES
+--------------------------------------------------
+Kruskal-Wallis FDR < 0.05: 424
+
+TOP BINARY FEATURES
+--------------------------------------------------
+k4_UGUU
+k4_UUAA
+k4_UUAC
+k4_UUAG
+k4_UUAU
+label_numeric
+k4_UUCC
+three_prime_5nt_G_frac
+shannon_entropy
+sequence_complexity
+unique_nucleotide_count
+longest_homopolymer
+homopolymer_runs_ge3
+homopolymer_runs_ge4
+homopolymer_runs_ge5
+G_fraction
+U_fraction
+GC_fraction
+AU_fraction
+GC_skew
+
+TOP CORRELATION-PRUNED FEATURES
+--------------------------------------------------
+label_numeric
+pyrimidine_fraction
+AU_fraction
+G_fraction
+shannon_entropy
+k1_U
+G_count
+k2_UU
+k2_GG
+GC_skew
+k2_AG
+relative_bin_2_entropy
+k2_GA
+relative_bin_1_entropy
+five_prime_10nt_entropy
+k3_GGU
+purine_fraction
+unique_nucleotide_count
+relative_bin_5_G
+k2_AC
+k2_AU
+k2_CU
+relative_bin_5_GC
+three_prime_10nt_G_frac
+GC_fraction
+relative_bin_3_entropy
+five_prime_5nt_entropy
+k3_CUU
+k3_UUA
+k1_C
+k1_A
+k4_GGUU
+k2_GC
+k3_UGG
+k3_UUU
+k3_UAG
+relative_bin_5_U
+relative_bin_4_G
+k4_GUAG
+k2_CA
+k2_UA
+k3_GAG
+relative_bin_3_G
+five_prime_10nt_GC
+length
+relative_bin_3_U
+k4_UGGU
+k3_GCG
+k3_AUU
+three_prime_10nt_GC
+
+IMPORTANT NOTE
+--------------------------------------------------
+Feature significance and ranking here are exploratory dataset-level analyses. For final predictive modeling, feature selection thresholds must be recomputed using training data only to prevent information leakage.

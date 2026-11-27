@@ -1,0 +1,3 @@
+label	records	unique_sequences	duplicate_records	duplicate_fraction	max_duplicate_count	sequences_occurring_once	sequences_occurring_multiple_times
+non-tRF	104079	101317	2762	0.02653753398860481	29	100110	1207
+tRF	128474	128474	0	0.0	1	128474	0

@@ -1,0 +1,62 @@
+STAGE 1 — tRF / non-tRF STATISTICAL CHARACTERIZATION
+======================================================================
+
+Analysis date: 2026-09-30 15:44:40
+Base directory: /lustre/home/sklab202/sourav_ml/sheetal_ml
+Output directory: /lustre/home/sklab202/sourav_ml/sheetal_ml/stage1_audit
+
+DATASET SUMMARY
+--------------------------------------------------
+Total records: 232,553
+Unique sequences: 229,791
+tRF records: 128,474
+non-tRF records: 104,079
+Global duplicate records: 2,762
+
+tRF SUBCLASS COUNTS
+--------------------------------------------------
+other: 84,892
+tRF-5: 17,538
+tRF-3: 16,496
+5tRH: 4,470
+tRF-1: 2,802
+3tRH: 1,807
+leader: 469
+
+IMPORTANT OUTPUT FILES
+--------------------------------------------------
+01_dataset_audit/class_summary.tsv
+01_dataset_audit/dataset_qc_summary.tsv
+01_dataset_audit/master_sequence_metadata.tsv
+01_dataset_audit/positive_subtype_membership.tsv
+01_dataset_audit/subclass_summary.tsv
+01_dataset_audit/subtype_file_counts.tsv
+02_sequence_features/kmer_features.tsv
+02_sequence_features/nucleotide_composition.tsv
+02_sequence_features/numeric_feature_matrix.tsv
+02_sequence_features/sequence_features.tsv
+03_statistical_analysis/PCA_explained_variance.tsv
+03_statistical_analysis/PCA_feature_loadings.tsv
+03_statistical_analysis/binary_tRF_vs_non_tRF_statistics.tsv
+03_statistical_analysis/descriptive_statistics.tsv
+03_statistical_analysis/feature_correlation_long.tsv
+03_statistical_analysis/feature_correlation_pearson.tsv
+03_statistical_analysis/feature_correlation_spearman.tsv
+03_statistical_analysis/kmer_enrichment_tRF_vs_non_tRF.tsv
+03_statistical_analysis/mutual_information_binary.tsv
+03_statistical_analysis/subclass_kruskal_wallis.tsv
+03_statistical_analysis/subclass_pairwise_statistics.tsv
+04_sequence_redundancy/cdhit_status.txt
+04_sequence_redundancy/cross_class_exact_overlap.tsv
+04_sequence_redundancy/cross_class_exact_overlap_sequences.tsv
+04_sequence_redundancy/duplicate_sequence_distribution.tsv
+04_sequence_redundancy/exact_duplicate_summary.tsv
+05_visualization_data/PCA_coordinates.tsv
+05_visualization_data/UMAP_coordinates.tsv
+05_visualization_data/composition_plot_data.tsv
+05_visualization_data/kmer_enrichment_k1.tsv
+05_visualization_data/kmer_enrichment_k2.tsv
+05_visualization_data/kmer_enrichment_k3.tsv
+05_visualization_data/length_distribution_data.tsv
+06_logs/stage1.log
+stage1_summary.txt
